@@ -7,7 +7,7 @@ printbuf:
 
 .text
 _start:
-	mov $0x31, %rdi
+	mov $0x32, %rdi
 	callq println
 	callq exit
 

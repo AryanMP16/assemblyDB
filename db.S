@@ -3,13 +3,39 @@
 .data
 printbuf:
     .ascii "\n"
-    len = . - printbuf
+    plen = . - printbuf
+txtfilebuf:
+    .ascii "txt\n"
+    tlen = . - txtfilebuf
+filename:
+    .ascii "database.txt"
+    flen = . - filename
 
 .text
 _start:
 	mov $0x32, %rdi
 	callq println
+	callq write_to_txt_file
 	callq exit
+
+write_to_txt_file:
+	#open file:
+	mov $0x2, %rax
+	mov $filename, %rdi
+	syscall
+
+	#write to file:
+	mov $0x1, %rax
+	mov $0x1, %rdi
+	mov $txtfilebuf, %rsi
+	mov $tlen, %rdx
+	syscall
+
+	#close file:
+	mov $0x3, %rax
+	syscall
+
+	ret
 
 println:
 	callq print
@@ -23,7 +49,7 @@ print:
 
 	mov $0x1, %rdi
 	mov $printbuf, %rsi
-	mov $len, %rdx
+	mov $plen, %rdx
 	mov $0x1, %rax
 	syscall
 	ret

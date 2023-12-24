@@ -22,6 +22,7 @@ write_to_txt_file:
 	#open file:
 	mov $0x2, %rax
 	mov $filename, %rdi
+	mov $0x2f2, %rdx
 	syscall
 
 	#write to file:
@@ -55,6 +56,6 @@ print:
 	ret
 
 exit:
-	mov $0x0, %rdi
 	mov $0x3c, %rax
+	mov $0x0, %rdi
 	syscall

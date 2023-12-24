@@ -8,7 +8,7 @@ txtfilebuf:
     .ascii "txt\n"
     tlen = . - txtfilebuf
 filename:
-    .ascii "database.txt"
+    .asciz "database.txt\0"
     flen = . - filename
 
 .text
@@ -22,7 +22,8 @@ write_to_txt_file:
 	#open file:
 	mov $0x2, %rax
 	mov $filename, %rdi
-	mov $0x2f2, %rdx
+	mov $0x61, %rdx #I'm not sure if this is doing anything
+	mov $0x441, %rsi
 	syscall
 
 	#write to file:
